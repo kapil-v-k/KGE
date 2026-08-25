@@ -27,4 +27,6 @@ The Graphical Primitives: Sit inside the RenderComponents as raw, pure vector sh
 (lines, circles, triangles, rectangles). They define the exact vertex meshes that are 
 batched together and sent to your GPU shader pipelines to be painted onto your 
 monitor screen.
+
+
 <img width="410" height="311" alt="image" src="https://github.com/user-attachments/assets/07b861fd-b1b5-48eb-be7e-fbc5abfd5109" />
