@@ -1,0 +1,36 @@
+The Core Approach: Quad Mapping
+To draw a word like "RADAR", your text engine will dynamically generate a series of tiny, flat 2D rectangles (Quads)—one quad for every single character. You will then bind a texture map containing the visual shapes of your letters and map them onto those quads.
+To build this cleanly within your existing framework, your approach will follow these three distinct phases:
+[ Phase 1: FreeType ]  ──► Loads .ttf, extracts raw alpha pixel grids (glyphs)
+         │
+         ▼
+[ Phase 2: Texture Atlas ] ──► Packs all alphabet grids onto ONE massive master texture sheet
+         │
+         ▼
+[ Phase 3: TextComponent ] ──► Computes layout offsets (metrics) & streams quads to BatchRendere
+
+Phase 1: Font Vector Rasterization (FreeType)A TrueType Font (.ttf) file contains mathematical vector curves (Bézier curves) describing the outline of every character. The CPU cannot pass curves directly to your fragment shader.You will initialize FreeType, a lightweight industry-standard open-source font library.You will instruct FreeType to open a font file (like Arial.ttf) and configure a target pixel height (e.g., 48 pixels high).FreeType will read the vector paths of the character you request and convert (rasterize) it into a flat, raw array of grayscale pixel data (an Alpha Bitmap Mask).
+Phase 2: The Texture Atlas (Performance Optimization)In early graphics engines, developers used to create a separate OpenGL texture ID for every individual character. This is a massive performance bottleneck. In a batch renderer, switching your active texture ID mid-frame forces your CPU to execute a hardware flush (glDrawElements), destroying your frame rates if you try to render long sentences.To solve this like a pro, you will implement a Texture Atlas:You will allocate one single, large empty texture box on the GPU (e.g., 512x512 pixels wide).You will loops through all ASCII characters (32 to 126, covering spaces, numbers, punctuation, uppercase, and lowercase letters).You will tile FreeType's small character bitmap grids side-by-back onto that single master sheet.For every character, you will record its UV coordinates (where its top-left and bottom-right corners sit on that 512x512 master texture coordinate grid from 0.0 to 1.0).
+Phase 3: Managing Font Metrics (The Invisible Spacing)Every character has unique, invisible dimensions that prevent text from looking unnatural or overlapping. For instance, the letter "i" is extremely narrow, "m" is extremely wide, and "g" drops down below the baseline.FreeType gives you these physical numbers (called Metrics) in pixels for every character:Advance: How far forward horizontally the typing cursor must jump after drawing this character to prepare for the next letter.Size: The actual pixel width and height of the character box.Bearing: The top-left offset distance relative to the typing baseline.You will pack the UV coordinates and Metrics for all 128 characters into a clean C++ struct cache map right inside a class called Font:cppstruct Character {
+    glm::vec2 textureCoordMin; // Top-Left UV coordinate on atlas
+    glm::vec2 textureCoordMax; // Bottom-Right UV coordinate on atlas
+    glm::ivec2 size;           // Width and height of character block
+    glm::ivec2 bearing;        // Position relative to typography baseline
+    unsigned int advance;      // Horizontal cursor skip step
+};
+
+std::unordered_map<char, Character> m_CharacterCache;
+Phase 4: Integrating with Your Component EngineOnce your Font class has baked your texture atlas and cached your character dimension metrics, you will write a new concrete class called TextComponent that hooks into your modular architecture:cppclass TextComponent : public Component {
+private:
+    std::string m_TextString;
+    Font*       m_FontAtlas;
+    // ...
+When your Viewport calls object->Render(), your TextComponent will intercept the call, loops through every letter in m_TextString, extract its dimensions from the Font cache, calculate the exact quad vertices and indices for that letter, and stream them cleanly straight into your BatchRenderer::Submit function!
+
+
+The Modern C++ Architectural Review:
+Take a moment to fully internalize this pipeline layout.By caching all text measurements during initialization inside a flat std::unordered_map, your runtime loop performs a constant-time lookup (O(1)) to fetch drawing data.Because every single letter across your sentences will share the exact same master texture atlas ID, your text drawing pass can pool all character quads into one single unified batch draw call! Your engine will draw paragraphs of text at the exact same lightning-fast speed it draws lines and points.
+
+Modern C++ & Optimization Focus: 
+Bit-Shifting (>> 6)Look at this specific step in the metrics generation calculations:cppcharacter.advance = fontFace->glyph->advance.x >> 6;
+Use code with caution.FreeType uses 26.6 Fractional Fixed-Point Numbers to track character width properties sub-pixel metrics safely on embedded systems that lack hardware floating-point units. This means the number returned is multiplied by 64 (2⁶).Instead of writing a slow division operation (/ 64.0), we use a modern C++ performance bitwise right-shift operation (>> 6). This instantly tells the CPU to slide the binary registers 6 slots down, dividing the number in just a single hardware CPU instruction cycle!

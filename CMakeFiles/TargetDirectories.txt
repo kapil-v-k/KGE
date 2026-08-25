@@ -1,0 +1,4 @@
+C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/CMakeFiles/glad.dir
+C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/CMakeFiles/rooster.dir
+C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/CMakeFiles/edit_cache.dir
+C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/CMakeFiles/rebuild_cache.dir

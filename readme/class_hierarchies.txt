@@ -1,0 +1,82 @@
++-----------------------------------------------------------------------------+
+
+|                                 Application                                 |
+|-----------------------------------------------------------------------------|
+| - m_Viewports: std::vector<std::shared_ptr<Viewport>>                       |
+| - m_UpdateCallback: std::function<void(float)>                              |
+|-----------------------------------------------------------------------------|
+| + Run(): int  [Contains Main Game Loop, calculates deltaTime, calls Update] |
++-----------------------------------------------------------------------------+
+                                      |
+                                      | (Owns 1-to-Many via std::shared_ptr)
+                                      v
++-----------------------------------------------------------------------------+
+
+|                                  Viewport                                   |
+|-----------------------------------------------------------------------------|
+| - m_ScreenOffsetX, m_ScreenOffsetY, m_PixelWidth, m_PixelHeight: int        |
+| - m_Objects: std::vector<std::shared_ptr<UiObject>>                         |
+| - m_BatchRenderer: std::unique_ptr<BatchRenderer>                           |
+| - m_UiShader: std::unique_ptr<Shader>                                       |
+|-----------------------------------------------------------------------------|
+| + Render(windowWidth, windowHeight): void [Loops through m_Objects]         |
++-----------------------------------------------------------------------------+
+                                      |
+                                      | (Owns 1-to-Many via std::shared_ptr)
+                                      v
++-----------------------------------------------------------------------------+
+
+|                                  UiObject                                   |
+|-----------------------------------------------------------------------------|
+| - m_Position, m_Scale: glm::vec2                                            |
+| - m_RotationRadians: float                                                  |
+| - m_Components: std::vector<std::unique_ptr<Component>>  <-- [POLYMORPHIC] |
+|-----------------------------------------------------------------------------|
+| + AddComponent<T>(args...): T* [Perfect Forwards & Moves Ownership]         |
+| + Update(deltaTime): void      [Ticks component logic hooks]                |
+| + Render(batcher, parentMatrix): void [Computes Model Matrix, calls Renders]|
++-----------------------------------------------------------------------------+
+                                      |
+                                      | (Owns uniquely via std::unique_ptr)
+                                      v
+                +-------------------------------------------+
+
+                |             <<<Abstract>>>                |
+                |               Component                   |
+                |-------------------------------------------|
+                | # m_Owner: UiObject* (Raw back-pointer)   |
+                |-------------------------------------------|
+                | + Update(deltaTime): void = 0             |
+                | + Render(batcher, transform): void = 0    |
+                +-------------------------------------------+
+                                      |
+                  +-------------------+-------------------+
+
+                  | (Inherits)                            | (Inherits)
+                  v                                       v
++------------------------------------+  +-------------------------------------+
+
+|          RenderComponent           |  |          RotationComponent          |
+|------------------------------------|  |-------------------------------------|
+| - m_Primitives: vector<shared_ptr> |  | - m_DegreesPerSecond: float         |
+|------------------------------------|  |-------------------------------------|
+| + AddShape<T>(args...): shared_ptr |  | + Update(deltaTime): void           |
+| + Render(batcher, matrix): override|  |   [Reads m_Owner->Rotate(speed*dt)] |
++------------------------------------+  +-------------------------------------+
+                  |
+                  | (Aggregates 1-to-Many)
+                  v
+    +---------------------------+
+
+    |      <<<Abstract>>>       |
+    |         Primitive         |
+    |---------------------------|
+    | + GenerateGeometry(): mesh|
+    | + BindUniforms(shader)    |
+    +---------------------------+
+                  |
+      +-----------+-----------+
+
+      |           |           |
+      v           v           v
+  [Line]      [Circle]   [Rectangle]

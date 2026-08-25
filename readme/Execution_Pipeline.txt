@@ -1,0 +1,35 @@
+[ Application Loop ]
+       │  
+       ▼ Calculates precise 'deltaTime' from glfwGetTime()
+[ app->m_UpdateCallback(deltaTime) ] 
+       │  
+       ▼ Ticks game rules via main.cpp lambda
+[ uiObject->Update(deltaTime) ]
+       │  
+       └─► Loops through components...
+                 │
+                 └─► [ RotationComponent::Update ] 
+                           │
+                           └─► Modifies parent matrix properties (m_Owner->Rotate())
+                                 │
+  =========================== RENDER WINDOW LINE THRESHOLD ===========================
+                                 │
+[ Viewport::Render ]             │ Fires automatically right after game logic
+       │                         │
+       ▼ Clears screen buffers, binds glViewport and m_UiShader
+[ uiObject->Render(BatchRenderer, IdentityMatrix) ]
+       │
+       ├─► 1. Computes local transform matrix: Translation * Rotation * Scale
+       │
+       └─► 2. Loops through components...
+                 │
+                 └─► [ RenderComponent::Render ]
+                           │
+                           └─► Loops through primitive shapes...
+                                     │
+                                     └─► [ BatchRenderer::Submit(primitive, combinedMatrix) ]
+                                               │
+                                               ├─► Scans primitive type (Line vs. Triangle)
+                                               ├─► Automatic State Flush if type switches!
+                                               ├─► Appends 32-byte layout vectors to VBO
+                                               └─► Invokes virtual primitive->BindUniforms()

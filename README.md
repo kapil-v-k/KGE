@@ -1,0 +1,2 @@
+This is currently just a modern opengl workspace with capability to draw some basic shapes. It uses glfw for windowing and glm for math and matrix operations and STBI for texture image loading. This is just a crude on the go learning mix of code currently. It has some classes to draw basic shapes, texturing and setting up shaders. Some content overlaps with learnopengl.com.
+<img width="650" height="426" alt="image" src="https://github.com/user-attachments/assets/8883c553-4646-424b-a0d7-53bcd9a05465" />

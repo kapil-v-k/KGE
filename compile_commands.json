@@ -1,0 +1,92 @@
+[
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\gcc.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -g -o CMakeFiles\\glad.dir\\src\\glad.c.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\glad.c",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\glad.c",
+  "output": "CMakeFiles\\glad.dir\\src\\glad.c.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\main.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\main.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\main.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\main.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\gcc.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\glad.c.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\glad.c",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\glad.c",
+  "output": "CMakeFiles\\rooster.dir\\src\\glad.c.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Application.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Application.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Application.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Application.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\UiObject.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\UiObject.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\UiObject.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\UiObject.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Primitive.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Primitive.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Primitive.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Primitive.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Shader.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Shader.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Shader.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Shader.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Font.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Font.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Font.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Font.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Texture.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Texture.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Texture.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Texture.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Clock.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Clock.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Clock.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Clock.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\opengl\\HardwareScissorLock.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\opengl\\HardwareScissorLock.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\opengl\\HardwareScissorLock.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\opengl\\HardwareScissorLock.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\Viewport.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Viewport.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\Viewport.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\Viewport.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\RenderComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\RenderComponent.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\RenderComponent.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\RenderComponent.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\ClipContainerComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ClipContainerComponent.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ClipContainerComponent.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\ClipContainerComponent.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\TextComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\TextComponent.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\TextComponent.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\TextComponent.cpp.obj"
+}
+]
