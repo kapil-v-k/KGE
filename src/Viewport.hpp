@@ -28,6 +28,13 @@ namespace Gui
         bool m_UseCustomOrtho = false;
         glm::mat4 m_CustomOrthoMatrix = glm::mat4(1.0f);
 
+        void UpdateLayoutBounds(int x, int y, int width, int height) {
+            m_x = x;
+            m_y = y;
+            m_width = width;
+            m_height = height;
+        }
+        
     private:
         int m_x, m_y;
         int m_width, m_height;

@@ -12,7 +12,7 @@
 
 namespace Gui
 {
-    Clock_Widget::Clock_Widget(Font* mainFont)
+    Clock_Widget::Clock_Widget(Font* mainFont, const std::string& cityName)
     {
         m_clock_widget = Gui::UiObject::Create();
         m_clock_widget->Move(0.0f, 0.0f); 
@@ -54,6 +54,28 @@ namespace Gui
             m_clock_widget->AddComponents(background_rendrer_item, circle_item, text_title);
         }
 
+        // ====================================================================
+        // --- FIXED FEATURE: INTERNAL HEADLINE CITY TEXT REGISTRATION ---
+        // ====================================================================
+        // Positioning it inside the clock_widget tree at (0.0f, -85.0f) centers
+        // it inside the 500x500 box without shifting the core clock layout pivot!
+        auto cityLabelWidget = Gui::UiObject::Create();
+        cityLabelWidget->Move(-90.0f, -35.0f); 
+
+        m_CityNameText = std::make_shared<Gui::TextComponent>();
+        if (m_CityNameText) {
+            m_CityNameText->SetFont(mainFont);
+            m_CityNameText->SetText(cityName);
+            m_CityNameText->SetColor(Gui::Color::Cyan); 
+            m_CityNameText->SetLocalScale(1.0f); 
+            
+            // --- FIXED: ZEROING OUT LOCAL OFFSETS RESOLVES CRITICAL SHIFTING TRAPS ---
+            m_CityNameText->SetLocalPosition(0.0f, 0.0f); 
+            
+            cityLabelWidget->AddComponents(m_CityNameText);
+        }
+        m_clock_widget->AddChild(cityLabelWidget);
+
         // --- FEATURE: CENTER DIGITAL DATE READOUT ---
         m_seconds_display_widget = Gui::UiObject::Create();
         m_seconds_display_widget->Move(0.0f, -50.0f); 
@@ -62,7 +84,7 @@ namespace Gui
             m_DynamicCalendarText->SetFont(mainFont);
             m_DynamicCalendarText->SetColor(Gui::Color::NeonGreen);
             m_DynamicCalendarText->SetLocalScale(1.0f);
-            m_DynamicCalendarText->SetLocalPosition(-175.0f, 250.0f);
+            m_DynamicCalendarText->SetLocalPosition(-195.0f, 250.0f);
             m_seconds_display_widget->AddComponents(m_DynamicCalendarText);
         }
         m_clock_widget->AddChild(m_seconds_display_widget);
@@ -233,7 +255,8 @@ namespace Gui
         auto now = std::chrono::system_clock::now();
         time_t currentTime = std::chrono::system_clock::to_time_t(now);
         
-        float activeTimezoneOffsetHours = 5.5f;
+        float activeTimezoneOffsetHours = m_TimezoneOffsetHours; 
+        
         time_t adjustedTime = currentTime + static_cast<time_t>(activeTimezoneOffsetHours * 3600.0f);
         struct tm* localTime = std::gmtime(&adjustedTime);
 
@@ -252,7 +275,7 @@ namespace Gui
         if (m_DynamicCalendarText) {
             // Expanded lookup arrays translate raw indices into beautiful long word tokens
             const std::string fullDays[] = { 
-                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" 
+                "   Sunday", "   Monday", "  Tuesday", "Wednesday", " Thursday", "   Friday", " Saturday" 
             };
             const std::string fullMonths[] = { 
                 "January", "February", "March", "April", "May", "June", 
