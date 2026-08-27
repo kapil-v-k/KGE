@@ -86,6 +86,16 @@ namespace Gui {
                 m_ResizeCallback(newWidth, newHeight);
             }
         }
+
+        void SyncFrameworkBounds(int index, int x, int y, int width, int height) {
+            if (index >= 0 && index < static_cast<int>(m_Viewports.size())) {
+                auto& vp = m_Viewports[index];
+                if (vp) {
+                    // Update the application's hidden, private viewport cache parameters natively
+                    vp->UpdateLayoutBounds(x, y, width, height);
+                }
+            }
+        }
     };
 
 } // namespace Gui

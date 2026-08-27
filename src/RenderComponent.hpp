@@ -21,16 +21,15 @@ namespace Gui {
         {
             return std::make_shared<RenderComponent>(owner);
         }
-        template<typename T, typename... Args>
-        std::shared_ptr<T> AddPrimitives(Args&&... args) {
-            
-            // Allocate the specific sub-shape cleanly on the heap using std::make_shared
-            auto shape = std::make_shared<T>(std::forward<Args>(args)...);
-            
-            // Push the shared pointer straight into our array cache seamlessly
-            m_Primitives.push_back(shape);
-            
-            return shape; 
+
+        // ====================================================================
+        // --- FIXED: VARIADIC FOLD OPERATIONS TYPE CASTING HARMONY -----------
+        // ====================================================================
+        // Casting elements explicitly to your master base type (Primitive) 
+        // stops parameter pack translation warnings across strict compilers!
+        template<typename... Args>
+        void AddPrimitives(std::shared_ptr<Args>... args) {
+            (m_Primitives.push_back(std::static_pointer_cast<Primitive>(args)), ...);
         }
 
         void Render(class BatchRenderer& batcher, const glm::mat4& combinedTransform, Viewport* activeViewport);

@@ -27,20 +27,24 @@ namespace Gui
         
         // 2. CHASSIS OUTER FRAME MESH BODIES
         auto background_rendrer_item = Gui::RenderComponent::Create(m_clock_widget.get());
-        auto background = background_rendrer_item->AddPrimitives<Gui::RectanglePrimitive>(glm::vec2(500.0f, 500.0f), 25.0f);
+        auto background = Gui::RectanglePrimitive::Create(glm::vec2(500.0f, 500.0f), 25.0f);
+       // auto background = background_rendrer_item->AddPrimitives<Gui::RectanglePrimitive>(glm::vec2(500.0f, 500.0f), 25.0f);
         if (background) {
             background->SetColor(Gui::Color::CarbonGrey); 
             background->SetOutlineColor(Gui::Color::Blue);
             background->SetBorderThickness(4.0f);
+            background_rendrer_item->AddPrimitives(background);
         }
 
         auto circle_item = Gui::RenderComponent::Create(m_clock_widget.get());
-        auto circle_rendrer = circle_item->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 160.0f);
+        auto circle_rendrer = Gui::CirclePrimitive::Create(glm::vec2(0.0f, 0.0f), 160.0f);
+        //auto circle_rendrer = circle_item->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 160.0f);
         if (circle_rendrer) {
             circle_rendrer->SetColor(Gui::Color::WithAlpha(Gui::Color::Cyan, 0.1f));
             circle_rendrer->SetOutlineColor(Gui::Color::Green); 
             circle_rendrer->SetBorderThickness(4.0f);
             circle_rendrer->SetFilled(false);
+            circle_item->AddPrimitives(circle_rendrer);
         }
         
         // Console Header Plate text overlay
@@ -130,16 +134,24 @@ namespace Gui
         // ====================================================================
         m_hours_hand_widget = Gui::UiObject::Create();
         auto m_hours_hand = Gui::RenderComponent::Create(m_hours_hand_widget.get());
-        auto h_needle = m_hours_hand->template AddPrimitives<Gui::ThickLinePrimitive>(80.0f, 8.0f);
-        if (h_needle) h_needle->SetColor(Gui::Color::Platinum_100);
+        auto h_needle = Gui::ThickLinePrimitive::Create(80.0f, 8.0f);
+        //auto h_needle = m_hours_hand->template AddPrimitives<Gui::ThickLinePrimitive>(80.0f, 8.0f);
+        if (h_needle) {
+             h_needle->SetColor(Gui::Color::Platinum_100);
+             m_hours_hand->AddPrimitives(h_needle);
+        }
         m_hours_hand_widget->AddComponents(m_hours_hand);
         m_hours_hand_widget->Move(0.0f, 0.0f);
        // m_clock_widget->AddChild(m_hours_hand_widget);
 
         m_minutes_hand_widget = Gui::UiObject::Create();
         auto m_minutes_hand_comp = Gui::RenderComponent::Create(m_minutes_hand_widget.get());
-        auto m_needle = m_minutes_hand_comp->template AddPrimitives<Gui::ThickLinePrimitive>(120.0f, 5.0f);
-        if (m_needle) m_needle->SetColor(Gui::Color::Sky_500);
+        auto m_needle = Gui::ThickLinePrimitive::Create(120.0f, 5.0f);
+        //auto m_needle = m_minutes_hand_comp->template AddPrimitives<Gui::ThickLinePrimitive>(120.0f, 5.0f);
+        if (m_needle){
+            m_needle->SetColor(Gui::Color::Sky_500);
+            m_minutes_hand_comp->AddPrimitives(m_needle);
+        }
         m_minutes_hand_widget->AddComponents(m_minutes_hand_comp);
         m_minutes_hand_widget->Move(0.0f, 0.0f);
        // m_clock_widget->AddChild(m_minutes_hand_widget);
@@ -148,22 +160,28 @@ namespace Gui
         auto seconds_hand_rendrer = Gui::RenderComponent::Create(m_seconds_hand_widget.get());
         
         // --- FIXED: ADDED STANDARD TEMPLATE PARAMETER ANGLE BRACKETS ---
-        auto s_needle = seconds_hand_rendrer->template AddPrimitives<Gui::ThickLinePrimitive>(120.0f, 4.0f);
+        auto s_needle = Gui::ThickLinePrimitive::Create(120.0f, 4.0f);
+        //auto s_needle = seconds_hand_rendrer->template AddPrimitives<Gui::ThickLinePrimitive>(120.0f, 4.0f);
         if (s_needle) {
             s_needle->SetColor(Gui::Color::White);
             s_needle->SetOutlineColor(Gui::Color::White);
+            seconds_hand_rendrer->AddPrimitives(s_needle);
         }
         
         // --- FIXED: ADDED STANDARD TEMPLATE PARAMETER ANGLE BRACKETS ---
-        auto arrow = seconds_hand_rendrer->template AddPrimitives<Gui::TrianglePrimitive>(
-            glm::vec2(-15.0f, -125.0f), 
+        auto arrow = Gui::TrianglePrimitive::Create(glm::vec2(-15.0f, -125.0f), 
             glm::vec2(15.0f,  -125.0f), 
-            glm::vec2(0.0f,   -155.0f)  
-        );
+            glm::vec2(0.0f,   -155.0f));
+        // auto arrow = seconds_hand_rendrer->template AddPrimitives<Gui::TrianglePrimitive>(
+        //     glm::vec2(-15.0f, -125.0f), 
+        //     glm::vec2(15.0f,  -125.0f), 
+        //     glm::vec2(0.0f,   -155.0f)  
+        // );
         if (arrow) {
             arrow->SetColor(Gui::Color::WithAlpha(Gui::Color::CyberOrange,0.2f));
             arrow->SetOutlineColor(Gui::Color::CyberOrange);
             arrow->SetBorderThickness(1.5f);
+            seconds_hand_rendrer->AddPrimitives(arrow);
         }
         m_seconds_hand_widget->AddComponents(seconds_hand_rendrer);
         m_seconds_hand_widget->Move(0.0f, 0.0f);
@@ -181,11 +199,13 @@ namespace Gui
         // ====================================================================
         m_hours_highlight_widget = Gui::UiObject::Create();
         auto hourDisplayRenderer = Gui::RenderComponent::Create(m_hours_highlight_widget.get());
-        auto hCirclePrimitive = hourDisplayRenderer->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 24.0f);
+        auto hCirclePrimitive = Gui::CirclePrimitive::Create(glm::vec2(0.0f, 0.0f), 24.0f);
+        //auto hCirclePrimitive = hourDisplayRenderer->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 24.0f);
         if (hCirclePrimitive) {
             hCirclePrimitive->SetColor(Gui::Color::WithAlpha(Gui::Color::PureDark, 0.2f));
             hCirclePrimitive->SetOutlineColor(Gui::Color::WarningOrange);
             hCirclePrimitive->SetBorderThickness(2.5f);
+            hourDisplayRenderer->AddPrimitives(hCirclePrimitive);
         }
         m_hours_highlight_widget->AddComponents(hourDisplayRenderer);
 
@@ -196,11 +216,13 @@ namespace Gui
         auto minDisplayRenderer = Gui::RenderComponent::Create(m_minutes_display_widget.get());
         
         // --- FIXED: ADDED THE MISSING MINUTE PRIMITIVE CIRCLE FRAME MESH ---
-        auto minCirclePrim = minDisplayRenderer->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 25.0f);
+        auto minCirclePrim = Gui::CirclePrimitive::Create(glm::vec2(0.0f, 0.0f), 25.0f);
+        //auto minCirclePrim = minDisplayRenderer->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 25.0f);
         if (minCirclePrim) {
             minCirclePrim->SetColor(Gui::Color::WithAlpha(Gui::Color::PureDark, 0.3f));
             minCirclePrim->SetOutlineColor(Gui::Color::WarningOrange);
             minCirclePrim->SetBorderThickness(2.5f);
+            minDisplayRenderer->AddPrimitives(minCirclePrim);
         }
         m_minutes_display_widget->AddComponents(minDisplayRenderer);
 
@@ -228,11 +250,13 @@ namespace Gui
         m_seconds_triangle_widget = Gui::UiObject::Create();
         m_seconds_triangle_widget->Move(0.0f, 0.0f); 
         auto centerHubRenderer = Gui::RenderComponent::Create(m_seconds_triangle_widget.get());
-        auto hubCircle = centerHubRenderer->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 28.0f);
+        auto hubCircle = Gui::CirclePrimitive::Create(glm::vec2(0.0f, 0.0f), 28.0f);
+        //auto hubCircle = centerHubRenderer->template AddPrimitives<Gui::CirclePrimitive>(glm::vec2(0.0f, 0.0f), 28.0f);
         if (hubCircle) {
             hubCircle->SetColor(Gui::Color::WithAlpha(Gui::Color::PureDark, 0.4f));
             hubCircle->SetOutlineColor(Gui::Color::WarningOrange);
             hubCircle->SetBorderThickness(2.0f);
+            centerHubRenderer->AddPrimitives(hubCircle);
         }
         
         m_DynamicSecondsText = std::make_shared<Gui::TextComponent>();
