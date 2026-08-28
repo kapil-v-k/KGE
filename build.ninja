@@ -179,6 +179,13 @@ build CMakeFiles/rooster.dir/src/TextComponent.cpp.obj: CXX_COMPILER__rooster_un
   OBJECT_DIR = CMakeFiles\rooster.dir
   OBJECT_FILE_DIR = CMakeFiles\rooster.dir\src
 
+build CMakeFiles/rooster.dir/src/ClipComponent.cpp.obj: CXX_COMPILER__rooster_unscanned_Debug C$:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/src/ClipComponent.cpp || cmake_object_order_depends_target_rooster
+  DEP_FILE = CMakeFiles\rooster.dir\src\ClipComponent.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype
+  OBJECT_DIR = CMakeFiles\rooster.dir
+  OBJECT_FILE_DIR = CMakeFiles\rooster.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target rooster
@@ -187,7 +194,7 @@ build CMakeFiles/rooster.dir/src/TextComponent.cpp.obj: CXX_COMPILER__rooster_un
 #############################################
 # Link the executable rooster.exe
 
-build rooster.exe: CXX_EXECUTABLE_LINKER__rooster_Debug CMakeFiles/rooster.dir/src/main.cpp.obj CMakeFiles/rooster.dir/src/glad.c.obj CMakeFiles/rooster.dir/src/Application.cpp.obj CMakeFiles/rooster.dir/src/UiObject.cpp.obj CMakeFiles/rooster.dir/src/Primitive.cpp.obj CMakeFiles/rooster.dir/src/Shader.cpp.obj CMakeFiles/rooster.dir/src/Font.cpp.obj CMakeFiles/rooster.dir/src/Texture.cpp.obj CMakeFiles/rooster.dir/src/Clock.cpp.obj CMakeFiles/rooster.dir/src/opengl/HardwareScissorLock.cpp.obj CMakeFiles/rooster.dir/src/Viewport.cpp.obj CMakeFiles/rooster.dir/src/RenderComponent.cpp.obj CMakeFiles/rooster.dir/src/ClipContainerComponent.cpp.obj CMakeFiles/rooster.dir/src/TextComponent.cpp.obj | lib/libglfw3dll.a libglad.a lib/libfreetype.a || libglad.a
+build rooster.exe: CXX_EXECUTABLE_LINKER__rooster_Debug CMakeFiles/rooster.dir/src/main.cpp.obj CMakeFiles/rooster.dir/src/glad.c.obj CMakeFiles/rooster.dir/src/Application.cpp.obj CMakeFiles/rooster.dir/src/UiObject.cpp.obj CMakeFiles/rooster.dir/src/Primitive.cpp.obj CMakeFiles/rooster.dir/src/Shader.cpp.obj CMakeFiles/rooster.dir/src/Font.cpp.obj CMakeFiles/rooster.dir/src/Texture.cpp.obj CMakeFiles/rooster.dir/src/Clock.cpp.obj CMakeFiles/rooster.dir/src/opengl/HardwareScissorLock.cpp.obj CMakeFiles/rooster.dir/src/Viewport.cpp.obj CMakeFiles/rooster.dir/src/RenderComponent.cpp.obj CMakeFiles/rooster.dir/src/ClipContainerComponent.cpp.obj CMakeFiles/rooster.dir/src/TextComponent.cpp.obj CMakeFiles/rooster.dir/src/ClipComponent.cpp.obj | lib/libglfw3dll.a libglad.a lib/libfreetype.a || libglad.a
   FLAGS = -g
   LINK_LIBRARIES = lib/libglfw3dll.a  libglad.a  lib/libfreetype.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\rooster.dir

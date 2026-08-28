@@ -106,6 +106,15 @@ namespace Gui {
         }
 
         int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+        // ====================================================================
+        // --- FIXED: SILENCING DRIVER OPTIMIZATION WARNING SPAMS -------------
+        // ====================================================================
+        // In standard OpenGL, a location of -1 is completely valid and means the 
+        // driver stripped the variable away because it was not used in that specific shader.
+        // Commenting out or removing the error print statement completely cleans up your console!
+        if (location == -1) {
+            // std::cout << "Warning: Uniform '" << name << "' not found!" << std::endl; ◄── REMOVE OR COMMENT OUT THIS LINE!
+        }
         m_UniformLocationCache[name] = location;
         return location;
     }

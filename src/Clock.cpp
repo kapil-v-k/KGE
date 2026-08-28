@@ -3,6 +3,7 @@
 #include "RenderComponent.hpp"
 #include "TextComponent.h"
 #include "ClipContainerComponent.h"
+#include "ClipComponent.h"
 #include "Primitive.h"
 #include "Color.h"
 #include "Font.h"
@@ -20,9 +21,16 @@ namespace Gui
         // 1. --- FIXED: INCREASE MASK SIZE TO 600x600 TO PREVENT BORDER CUTS ---
         // Expanding the scissor bounds guarantees the outer hour display ring 
         // never clips past the edge boundaries, eliminating cuts completely!
-        auto clock_scissor = Gui::ClipContainerComponent::Create(600, 600);
-        auto scissor_shape = std::make_unique<Gui::RectanglePrimitive>(glm::vec2(500.0f, 500.0f), 25.0f);
-        clock_scissor->AddPrimitives(std::move(scissor_shape));
+        // auto clock_scissor = Gui::ClipContainerComponent::Create(600, 600);
+        // auto scissor_shape = std::make_unique<Gui::RectanglePrimitive>(glm::vec2(500.0f, 500.0f), 25.0f);
+        // clock_scissor->AddPrimitives(std::move(scissor_shape));
+        // m_clock_widget->AddComponents(clock_scissor);       
+        //auto clock_scissor = Gui::ScissorClipComponent::Create(m_clock_widget.get(), glm::vec2(500.0f, 500.0f));
+        //auto clock_scissor = Gui::StencilClipComponent::Create(m_clock_widget.get(), glm::vec2(500.0f, 500.0f));
+        auto clock_scissor = Gui::SdfClipComponent::Create(m_clock_widget.get(), glm::vec2(500.0f, 500.0f));
+
+        auto scissor_shape = Gui::RectanglePrimitive::Create(glm::vec2(500.0f, 500.0f), 25.0f);
+        clock_scissor->AddPrimitives(scissor_shape);
         m_clock_widget->AddComponents(clock_scissor);
         
         // 2. CHASSIS OUTER FRAME MESH BODIES
@@ -51,7 +59,7 @@ namespace Gui
         auto text_title = std::make_shared<Gui::TextComponent>();
         if (text_title != nullptr) {
             text_title->SetFont(mainFont);
-            text_title->SetText("TIME DISPLAY CONSOLE");
+            text_title->SetText("TIME DISPLAY CONSOLE AAAAAAAAAAAAAAAAAAAAA");
             text_title->SetColor(Gui::Color::NeonGreen);
             text_title->SetLocalScale(1.0f);
             text_title->SetLocalPosition(-185.0f, -185.0f); 
@@ -276,6 +284,7 @@ namespace Gui
     }
 
     void Clock_Widget::Update(float deltaTime) {
+        m_clock_widget->SetRotation(45.0f);
         auto now = std::chrono::system_clock::now();
         time_t currentTime = std::chrono::system_clock::to_time_t(now);
         

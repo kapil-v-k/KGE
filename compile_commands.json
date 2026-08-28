@@ -88,5 +88,11 @@
   "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\TextComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\TextComponent.cpp",
   "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\TextComponent.cpp",
   "output": "CMakeFiles\\rooster.dir\\src\\TextComponent.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\ClipComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ClipComponent.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ClipComponent.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\ClipComponent.cpp.obj"
 }
 ]

@@ -15,6 +15,7 @@
 #include "Font.h"
 #include "TextComponent.h"
 #include "BatchRenderer.hpp"
+#include "ClipComponent.h"
 
 void single_viewport_diagnostic_clock()
 {
@@ -77,6 +78,7 @@ void single_viewport_diagnostic_clock()
         std::cerr << "Diagnostic Initialization Fault Caught: " << e.what() << std::endl;
     }
 }
+
 
 static const int GRID_COLS = 3;
 static const int GRID_ROWS = 2;
@@ -269,12 +271,11 @@ void two_viewport_display()
         config.height = 1080;
         config.title = "Native 3x2 Viewport Engine Matrix - Universal Grid Hub";
         
-        // Cache our original design configuration limits dynamically
-        g_DesignWindowWidth = config.width;
-        g_DesignWindowHeight = config.height;
 
         auto app = Gui::Application::Create(config);
 
+        glfwGetFramebufferSize(app->GetNativeWindow(), &g_DesignWindowWidth, &g_DesignWindowHeight);
+        
         auto mainFont = std::make_unique<Gui::Font>("C:/Windows/Fonts/arial.ttf", 32);
         auto viewport1 = app->CreateViewport(0,0,config.width/2,config.height);
         auto viewport2 = app->CreateViewport(config.width/2,0,config.width/2,config.height);
@@ -298,10 +299,30 @@ void two_viewport_display()
         viewport1_boundary->AddComponents(boundary_render);
         viewport1->AddObject(viewport1_boundary);
 
-        auto clock1 = std::make_unique<Gui::Clock_Widget>(mainFont.get(), "Bangalore");
-        clock1->SetTimezoneOffset(5.5f);
-        viewport1->AddObject(clock1->GetWidget());
+        // auto clock1 = std::make_unique<Gui::Clock_Widget>(mainFont.get(), "Bangalore");
+        // clock1->SetTimezoneOffset(5.5f);
+        // viewport1->AddObject(clock1->GetWidget());
 
+        auto temp_widget = Gui::UiObject::Create();
+        auto rect_rendrer = Gui::RenderComponent::Create(temp_widget.get());
+        auto rect = Gui::RectanglePrimitive::Create(glm::vec2(400, 100), 0.0f);
+        rect->SetOutlineColor(Gui::Color::Magenta);
+        rect_rendrer->AddPrimitives(rect);
+        temp_widget->AddComponents(rect_rendrer);
+        //temp_widget->Move(0.0f,0.0f);
+        auto text = Gui::TextComponent::Create();
+        text->SetFont(mainFont.get());
+        text->SetText("THIS TEXT IS GETTING CLIPPED BY THE CLIPPER");
+        text->SetColor(Gui::Color::SafetyOrange);
+        text->SetLocalPosition(-180,0);
+        temp_widget->AddComponents(std::move(text));
+        viewport1->AddObject(temp_widget);
+
+        auto clipper = Gui::StencilClipComponent::Create(temp_widget.get(), glm::vec2(400.0f, 100.0f));
+        auto scissor_shape = Gui::RectanglePrimitive::Create(glm::vec2(400.0f, 100.0f), 25.0f);
+        clipper->AddPrimitives(scissor_shape);
+        temp_widget->AddComponents(clipper); 
+        
         //
         // VIEWPORT 2
         //
@@ -329,7 +350,8 @@ void two_viewport_display()
             // for (auto& clock : g_ClockGrid) {
             //     if (clock) clock->Update(deltaTime);
             // }
-            clock1->Update(deltaTime);
+            //clock1->Update(deltaTime);
+            temp_widget->SetRotation(-45.0f);
         });
 
         app->Run();

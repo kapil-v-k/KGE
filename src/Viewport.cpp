@@ -14,7 +14,7 @@ namespace Gui
         // No more hardcoded 270.0f! Viewport maps 1:1 to its designated pixel bounds natively
         float halfW = static_cast<float>(width)  * 0.5f;
         float halfH = static_cast<float>(height) * 0.5f;
-
+        
         m_ProjectionMatrix = glm::ortho(-halfW, halfW, halfH, -halfH, -1.0f, 1.0f);
 
         m_LocalShader = std::make_unique<Gui::Shader>("assets/shaders/ui.vert", "assets/shaders/ui.frag");

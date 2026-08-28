@@ -1,6 +1,7 @@
 #version 330 core
 in vec4 v_Color; 
 in vec2 v_TexCoord;
+in vec2 v_WorldPosition; 
 
 out vec4 FragColor;
 
@@ -14,6 +15,14 @@ uniform sampler2D u_TextureAtlas;
 uniform int       u_TextureMaskType;
 uniform int       u_IsMaskContainer;
 
+// ====================================================================
+// --- UPDATED UNIFORMS: SIGNED DISTANCE FIELD MATRIX CONTROLS -------
+// ====================================================================
+uniform int       u_UseSdfClip;       
+uniform mat4      u_InverseClipMatrix; // ◄── NEW 4x4 TRANSFORMATION MATRIX REGISTER
+uniform vec2      u_ClipHalfSize;     
+uniform float     u_ClipCornerRadius; 
+
 float SDFRoundedRect(vec2 p, vec2 size, float radius) {
     vec2 q = abs(p) - (size * 0.5) + vec2(radius);
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - radius;
@@ -21,13 +30,26 @@ float SDFRoundedRect(vec2 p, vec2 size, float radius) {
 
 void main() {
     // ====================================================================
-    // --- FIXED: INTERCEPT MASKS AT THE VERY TOP OF THE MAIN FUNCTION ---
+    // --- STRATEGY A: PRODUCTION-GRADE MATRIX-INVERTED SHADER CLIPPING ---
     // ====================================================================
-    // This allows the mask engine to run BEFORE any type branch hits an early return!
+    if (u_UseSdfClip == 1) {
+        // Transform the fragment's absolute world position back into the mask's local space
+        vec4 localSpacePos = u_InverseClipMatrix * vec4(v_WorldPosition, 0.0, 1.0);
+        
+        // Evaluate your Signed Distance Field boundaries inside that localized coordinate box frame
+        float clipDist = SDFRoundedRect(localSpacePos.xy, u_ClipHalfSize * 2.0, u_ClipCornerRadius);
+        
+        // If the un-rotated pixel position lands outside the boundaries, drop it!
+        if (clipDist > 0.0) {
+            discard; 
+        }
+    }
+
+    // ====================================================================
+    // --- STRATEGY B: YOUR ORIGINAL LOCAL MASK LAYER INTERCEPT ----------
+    // ====================================================================
     if (u_IsMaskContainer == 1) {
         vec2 uv = v_TexCoord - vec2(0.5);
-        
-        // For a circular mask frame, discard fragments outside the inner radius bounds
         if (length(uv) > 0.5) {
             discard;
         }

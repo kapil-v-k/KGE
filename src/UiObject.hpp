@@ -21,7 +21,7 @@ namespace Gui
         static std::shared_ptr<UiObject> Create() {
             return std::make_shared<UiObject>();
         }
-
+        float GetRotation() const { return m_RotationRadians; }
         void Move(float x, float y) { m_Position = glm::vec2(x, y); }
         void Scale(float s) { m_Scale = glm::vec2(s, s); }
         void SetRotation(float deg) { m_RotationRadians = deg * (3.14159265f / 180.0f); }

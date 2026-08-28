@@ -1,6 +1,12 @@
 #version 330 core
 in vec4 v_Color; 
 in vec2 v_TexCoord;
+
+// ====================================================================
+// --- NEW INPUT VARYING: SCREEN INTERPOLATED COORDINATES -------------
+// ====================================================================
+// This reads the raw pixel position matrix directly from your vertex program, 
+// allowing flawless node-tree clipping independent of local shape UV masks!
 in vec2 v_WorldPosition; 
 
 out vec4 FragColor;
@@ -16,12 +22,12 @@ uniform int       u_TextureMaskType;
 uniform int       u_IsMaskContainer;
 
 // ====================================================================
-// --- UPDATED UNIFORMS: SIGNED DISTANCE FIELD MATRIX CONTROLS -------
+// --- NEW UNIFORMS: SIGNED DISTANCE FIELD SHADER CLIPPING CONTROLS --
 // ====================================================================
-uniform int       u_UseSdfClip;       
-uniform mat4      u_InverseClipMatrix; // ◄── NEW 4x4 TRANSFORMATION MATRIX REGISTER
-uniform vec2      u_ClipHalfSize;     
-uniform float     u_ClipCornerRadius; 
+uniform int       u_UseSdfClip;       // 1 = Active, 0 = Bypassed
+uniform vec2      u_ClipCenter;       // Center point of your clock widget (X, Y)
+uniform vec2      u_ClipHalfSize;     // Half-Width and Half-Height box constraints
+uniform float     u_ClipCornerRadius; // Corner curve radius (e.g., 25.0f chassis frame)
 
 float SDFRoundedRect(vec2 p, vec2 size, float radius) {
     vec2 q = abs(p) - (size * 0.5) + vec2(radius);
@@ -30,19 +36,22 @@ float SDFRoundedRect(vec2 p, vec2 size, float radius) {
 
 void main() {
     // ====================================================================
-    // --- STRATEGY A: PRODUCTION-GRADE MATRIX-INVERTED SHADER CLIPPING ---
+    // --- STRATEGY A: MODERN HIGH-TECH SHADER CLIPPING SYSTEM -----------
     // ====================================================================
+    // If the active scene layout node belongs to an SdfClipComponent branch,
+    // we evaluate its world coordinates against your parent boundaries instantly!
     if (u_UseSdfClip == 1) {
-        // Transform the fragment's absolute world position back into the mask's local space
-        vec4 localSpacePos = u_InverseClipMatrix * vec4(v_WorldPosition, 0.0, 1.0);
+        vec2 localClipPos = v_WorldPosition - u_ClipCenter;
+        float clipDist = SDFRoundedRect(localClipPos, u_ClipHalfSize * 2.0, u_ClipCornerRadius);
         
-        // Evaluate your Signed Distance Field boundaries inside that localized coordinate box frame
-        float clipDist = SDFRoundedRect(localSpacePos.xy, u_ClipHalfSize * 2.0, u_ClipCornerRadius);
-        
-        // If the un-rotated pixel position lands outside the boundaries, drop it!
+        // PURE MATH CLIP: If pixel is outside the rounded bounding frame container, drop it!
         if (clipDist > 0.0) {
-            discard; 
+            discard;
         }
+
+        // OPTIONAL ULTRA-SMOOTH ANTI-ALIASED EDGE BLENDING:
+        // float edgeAlpha = 1.0 - smoothstep(-0.5, 0.5, clipDist);
+        // if (edgeAlpha <= 0.0) discard;
     }
 
     // ====================================================================

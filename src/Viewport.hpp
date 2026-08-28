@@ -17,6 +17,11 @@ namespace Gui
         Viewport(int x, int y, int width, int height);
         ~Viewport(); 
 
+        int GetX() const { return m_x; }
+        int GetY() const { return m_y; }
+        int GetWidth() const { return m_width; }
+        int GetHeight() const { return m_height; }
+        
         void AddObject(std::shared_ptr<Gui::UiObject> obj);
         const std::vector<std::shared_ptr<Gui::UiObject>>& GetObjects() const { return m_Objects; }
 

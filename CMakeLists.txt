@@ -17,6 +17,7 @@ set(SOURCE_FILES
     src/RenderComponent.cpp
     src/ClipContainerComponent.cpp
     src/TextComponent.cpp
+    src/ClipComponent.cpp
     )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
