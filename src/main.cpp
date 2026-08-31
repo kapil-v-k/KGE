@@ -16,6 +16,8 @@
 #include "TextComponent.h"
 #include "BatchRenderer.hpp"
 #include "ClipComponent.h"
+#include "DigitalTimer.h"
+#include "ButtonComponent.h"
 
 void single_viewport_diagnostic_clock()
 {
@@ -299,30 +301,10 @@ void two_viewport_display()
         viewport1_boundary->AddComponents(boundary_render);
         viewport1->AddObject(viewport1_boundary);
 
-        // auto clock1 = std::make_unique<Gui::Clock_Widget>(mainFont.get(), "Bangalore");
-        // clock1->SetTimezoneOffset(5.5f);
-        // viewport1->AddObject(clock1->GetWidget());
-
-        auto temp_widget = Gui::UiObject::Create();
-        auto rect_rendrer = Gui::RenderComponent::Create(temp_widget.get());
-        auto rect = Gui::RectanglePrimitive::Create(glm::vec2(400, 100), 0.0f);
-        rect->SetOutlineColor(Gui::Color::Magenta);
-        rect_rendrer->AddPrimitives(rect);
-        temp_widget->AddComponents(rect_rendrer);
-        //temp_widget->Move(0.0f,0.0f);
-        auto text = Gui::TextComponent::Create();
-        text->SetFont(mainFont.get());
-        text->SetText("THIS TEXT IS GETTING CLIPPED BY THE CLIPPER");
-        text->SetColor(Gui::Color::SafetyOrange);
-        text->SetLocalPosition(-180,0);
-        temp_widget->AddComponents(std::move(text));
-        viewport1->AddObject(temp_widget);
-
-        auto clipper = Gui::StencilClipComponent::Create(temp_widget.get(), glm::vec2(400.0f, 100.0f));
-        auto scissor_shape = Gui::RectanglePrimitive::Create(glm::vec2(400.0f, 100.0f), 25.0f);
-        clipper->AddPrimitives(scissor_shape);
-        temp_widget->AddComponents(clipper); 
-        
+        auto clock1 = std::make_unique<Gui::DigitalTimer>(mainFont.get());
+       // clock1->SetTimezoneOffset(5.5f);
+        viewport1->AddObject(clock1->GetWidget());
+       
         //
         // VIEWPORT 2
         //
@@ -340,6 +322,9 @@ void two_viewport_display()
         viewport2_boundary->AddComponents(boundary_render2);
         viewport2->AddObject(viewport2_boundary);
 
+        auto clock2 = std::make_unique<Gui::Clock_Widget>(mainFont.get(), "Bangalore");
+        clock2->SetTimezoneOffset(5.5f);
+        viewport2->AddObject(clock2->GetWidget());
 
         app->OnUpdate([&](float deltaTime) {
             glDisable(GL_STENCIL_TEST);
@@ -347,11 +332,37 @@ void two_viewport_display()
             glStencilMask(0xFF); 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-            // for (auto& clock : g_ClockGrid) {
-            //     if (clock) clock->Update(deltaTime);
-            // }
-            //clock1->Update(deltaTime);
-            temp_widget->SetRotation(-45.0f);
+            double rawCursorX, rawCursorY;
+            app->GetMouseCursorPos(rawCursorX, rawCursorY);
+            bool isClickingNow = app->IsMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT);
+
+            int currentWinW = 1920, currentWinH = 1080;
+            if (app->GetNativeWindow()) {
+                glfwGetWindowSize(app->GetNativeWindow(), &currentWinW, &currentWinH);
+            }
+
+            // ====================================================================
+            // --- FIXED: LEFT CELL VIEWPORT-SPACE MOUSE TRANSLATION FORMULA -----
+            // ====================================================================
+            // Step A: Find the local midpoint centers of the left half-screen quadrant window
+            float leftViewportWidth  = static_cast<float>(currentWinW) * 0.5f;
+            float leftViewportHeight = static_cast<float>(currentWinH);
+            
+            float leftCellCenterX = leftViewportWidth * 0.5f;
+            float leftCellCenterY = leftViewportHeight * 0.5f;
+
+            // Step B: Normalize the raw top-left GLFW pixel directly onto the left center-origin grid!
+            float normalizedMouseX = static_cast<float>(rawCursorX) - leftCellCenterX;
+            float normalizedMouseY = static_cast<float>(rawCursorY) - leftCellCenterY;
+
+            // 3. Cascade mouse update states right down into your layout tree components
+            if (clock1) {
+                clock1->Update(deltaTime, normalizedMouseX, normalizedMouseY, isClickingNow);
+            }
+
+            if (clock2) {
+                clock2->Update(deltaTime);
+            }
         });
 
         app->Run();

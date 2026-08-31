@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 // Forward declarations to keep headers lightweight and improve compile times
 struct GLFWwindow; 
@@ -77,6 +79,19 @@ namespace Gui {
         [[nodiscard]] int GetWidth() const { return m_Config.width; }
         [[nodiscard]] int GetHeight() const { return m_Config.height; }
         [[nodiscard]] GLFWwindow* GetNativeWindow() const { return m_WindowHandle; }
+
+        void GetMouseCursorPos(double& outX, double& outY) const {
+            if (m_WindowHandle) {
+                glfwGetCursorPos(m_WindowHandle, &outX, &outY);
+            } else {
+                outX = 0.0; outY = 0.0;
+            }
+        }
+
+        bool IsMouseButtonPressed(int glfwButtonButton) const {
+            if (!m_WindowHandle) return false;
+            return glfwGetMouseButton(m_WindowHandle, glfwButtonButton) == GLFW_PRESS;
+        }
 
         // Internal engine bridge: Dispatches the physical runtime callbacks to client space
         void DispatchResize(int newWidth, int newHeight) {

@@ -41,8 +41,12 @@ namespace Gui {
         shader.SetUniformFloat("u_BorderThickness", m_BorderThickness);
     }
 
-    void TrianglePrimitive::BindUniforms(const Shader& shader) const {
-                // Mode 0 flushes the vertex color data directly, avoiding any capsule shape warping!
-                shader.SetUniformInt("u_PrimitiveType", 0);
-            }
+    // void TrianglePrimitive::BindUniforms(const Shader& shader) const {
+    //     // Tell the fragment shader to parse through the quad triangle SDF logic
+    //     shader.SetUniformInt("u_PrimitiveType", 6);
+    //     shader.SetUniformFloat("u_BorderThickness", m_BorderThickness);
+    //     shader.SetUniformInt("u_IsFilled", m_IsFilled ? 1 : 0);
+    //     shader.SetUniformVec4("u_OutlineColor", m_OutlineColor);
+    //     shader.SetUniformVec2("u_RectSize", m_Size); // Passes bounding metrics
+    // }
 } // namespace Gui

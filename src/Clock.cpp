@@ -50,7 +50,7 @@ namespace Gui
         if (circle_rendrer) {
             circle_rendrer->SetColor(Gui::Color::WithAlpha(Gui::Color::Cyan, 0.1f));
             circle_rendrer->SetOutlineColor(Gui::Color::Green); 
-            circle_rendrer->SetBorderThickness(4.0f);
+            circle_rendrer->SetBorderThickness(3.0f);
             circle_rendrer->SetFilled(false);
             circle_item->AddPrimitives(circle_rendrer);
         }
@@ -168,7 +168,7 @@ namespace Gui
         auto seconds_hand_rendrer = Gui::RenderComponent::Create(m_seconds_hand_widget.get());
         
         // --- FIXED: ADDED STANDARD TEMPLATE PARAMETER ANGLE BRACKETS ---
-        auto s_needle = Gui::ThickLinePrimitive::Create(120.0f, 4.0f);
+        auto s_needle = Gui::ThickLinePrimitive::Create(110.0f, 4.0f);
         //auto s_needle = seconds_hand_rendrer->template AddPrimitives<Gui::ThickLinePrimitive>(120.0f, 4.0f);
         if (s_needle) {
             s_needle->SetColor(Gui::Color::White);
@@ -177,8 +177,8 @@ namespace Gui
         }
         
         // --- FIXED: ADDED STANDARD TEMPLATE PARAMETER ANGLE BRACKETS ---
-        auto arrow = Gui::TrianglePrimitive::Create(glm::vec2(-15.0f, -125.0f), 
-            glm::vec2(15.0f,  -125.0f), 
+        auto arrow = Gui::TrianglePrimitive::Create(glm::vec2(-20.0f, -115.0f), 
+            glm::vec2(20.0f,  -115.0f), 
             glm::vec2(0.0f,   -155.0f));
         // auto arrow = seconds_hand_rendrer->template AddPrimitives<Gui::TrianglePrimitive>(
         //     glm::vec2(-15.0f, -125.0f), 
@@ -188,7 +188,7 @@ namespace Gui
         if (arrow) {
             arrow->SetColor(Gui::Color::WithAlpha(Gui::Color::CyberOrange,0.2f));
             arrow->SetOutlineColor(Gui::Color::CyberOrange);
-            arrow->SetBorderThickness(1.5f);
+            arrow->SetBorderThickness(3.0f);
             seconds_hand_rendrer->AddPrimitives(arrow);
         }
         m_seconds_hand_widget->AddComponents(seconds_hand_rendrer);
@@ -212,7 +212,7 @@ namespace Gui
         if (hCirclePrimitive) {
             hCirclePrimitive->SetColor(Gui::Color::WithAlpha(Gui::Color::PureDark, 0.2f));
             hCirclePrimitive->SetOutlineColor(Gui::Color::WarningOrange);
-            hCirclePrimitive->SetBorderThickness(2.5f);
+            hCirclePrimitive->SetBorderThickness(10.5f);
             hourDisplayRenderer->AddPrimitives(hCirclePrimitive);
         }
         m_hours_highlight_widget->AddComponents(hourDisplayRenderer);
@@ -229,7 +229,7 @@ namespace Gui
         if (minCirclePrim) {
             minCirclePrim->SetColor(Gui::Color::WithAlpha(Gui::Color::PureDark, 0.3f));
             minCirclePrim->SetOutlineColor(Gui::Color::WarningOrange);
-            minCirclePrim->SetBorderThickness(2.5f);
+            minCirclePrim->SetBorderThickness(10.5f);
             minDisplayRenderer->AddPrimitives(minCirclePrim);
         }
         m_minutes_display_widget->AddComponents(minDisplayRenderer);
@@ -263,7 +263,7 @@ namespace Gui
         if (hubCircle) {
             hubCircle->SetColor(Gui::Color::WithAlpha(Gui::Color::PureDark, 0.4f));
             hubCircle->SetOutlineColor(Gui::Color::WarningOrange);
-            hubCircle->SetBorderThickness(2.0f);
+            hubCircle->SetBorderThickness(10.5f);
             centerHubRenderer->AddPrimitives(hubCircle);
         }
         
@@ -284,7 +284,7 @@ namespace Gui
     }
 
     void Clock_Widget::Update(float deltaTime) {
-        m_clock_widget->SetRotation(45.0f);
+        //m_clock_widget->SetRotation(45.0f);
         auto now = std::chrono::system_clock::now();
         time_t currentTime = std::chrono::system_clock::to_time_t(now);
         
@@ -338,7 +338,7 @@ namespace Gui
         }
 
         if (m_hours_highlight_widget) {
-            float hourRadius = 135.0f;
+            float hourRadius = 130.0f;
             
             // --- FIXED: DECLARED THE EXPLICIT TARGET CONVERSION DATA TYPES ---
             int currentHourInt = static_cast<int>(smoothHours);

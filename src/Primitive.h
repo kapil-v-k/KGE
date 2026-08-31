@@ -287,88 +287,65 @@ namespace Gui {
         };
 
     class TrianglePrimitive : public Primitive {
-        private:
-            glm::vec2 m_P1;
-            glm::vec2 m_P2;
-            glm::vec2 m_P3;
+    private:
+        glm::vec2 m_P1;
+        glm::vec2 m_P2;
+        glm::vec2 m_P3;
 
-            // Helper to calculate the extruded normal of a corner joint
-            glm::vec2 GetCornerNormal(const glm::vec2& curr, const glm::vec2& prev, const glm::vec2& next) const {
-                glm::vec2 dir1 = glm::normalize(curr - prev);
-                glm::vec2 dir2 = glm::normalize(next - curr);
-                
-                // Compute perpendicular normals for both connected edges
-                glm::vec2 n1(-dir1.y, dir1.x);
-                glm::vec2 n2(-dir2.y, dir2.x);
-                
-                // Average them to find the perfect miter-joint heading vector
-                glm::vec2 miter = glm::normalize(n1 + n2);
-                
-                // Scale the length so the border stays uniform along the angled slopes
-                float length = m_BorderThickness / glm::dot(miter, n1);
-                if (length != length || length > m_BorderThickness * 5.0f) {
-                    return n1 * m_BorderThickness; // Fallback for edge cases
-                }
-                return miter * length;
-            }
+    public:
+        TrianglePrimitive(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3)
+            : Primitive(PrimitiveType::Rectangle), m_P1(p1), m_P2(p2), m_P3(p3) {}
 
-        public:
-            TrianglePrimitive(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3)
-                : Primitive(PrimitiveType::Rectangle), m_P1(p1), m_P2(p2), m_P3(p3) {}
+        [[nodiscard]] static std::shared_ptr<TrianglePrimitive> Create(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3) {
+            return std::make_shared<TrianglePrimitive>(p1, p2, p3);
+        }
 
-            [[nodiscard]] static std::shared_ptr<TrianglePrimitive> Create(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3) {
-                return std::make_shared<TrianglePrimitive>(p1, p2, p3);
-            }
+        PrimitiveMesh GenerateGeometry() const override {
+            PrimitiveMesh quadShellMesh;
 
-            [[nodiscard]] PrimitiveMesh GenerateGeometry() const override {
-                PrimitiveMesh mesh;
+            float minX = glm::min(glm::min(m_P1.x, m_P2.x), m_P3.x);
+            float maxX = glm::max(glm::max(m_P1.x, m_P2.x), m_P3.x);
+            float minY = glm::min(glm::min(m_P1.y, m_P2.y), m_P3.y);
+            float maxY = glm::max(glm::max(m_P1.y, m_P2.y), m_P3.y);
 
-                // 1. GENERATE THE FILLED CORE FACE (If active)
-                if (m_IsFilled) {
-                    Vertex v1 = { m_P1, m_Color, {0,0} };
-                    Vertex v2 = { m_P2, m_Color, {0,0} };
-                    Vertex v3 = { m_P3, m_Color, {0,0} };
-                    mesh.vertices = { v1, v2, v3 };
-                    mesh.indices  = { 0, 1, 2 };
-                }
+            // Add a generous 15px buffer zone around the tip coordinates
+            float halfW = ((maxX - minX) * 0.5f) + 15.0f;
+            float halfH = ((maxY - minY) * 0.5f) + 15.0f;
 
-                // 2. --- FIXED: EXTRACTED CORNER STITCHING PASS ---
-                // If an outline is requested, we expand the mesh outwards to form seamless mitered borders!
-                if (m_BorderThickness > 0.0f) {
-                    uint32_t borderStartIdx = static_cast<uint32_t>(mesh.vertices.size());
+            float centerX = (minX + maxX) * 0.5f;
+            float centerY = (minY + maxY) * 0.5f;
 
-                    // Calculate the outer pushing vectors for each of the 3 sharp corners
-                    glm::vec2 ext1 = m_P1 + GetCornerNormal(m_P1, m_P3, m_P2);
-                    glm::vec2 ext2 = m_P2 + GetCornerNormal(m_P2, m_P1, m_P3);
-                    glm::vec2 ext3 = m_P3 + GetCornerNormal(m_P3, m_P2, m_P1);
+            // --- FIXED: FORCING ALL FOUR CORNERS TO PURE ZERO ALPHA TRANSPARENCY ---
+            // Passing glm::vec4(0.0f) ensures the quad background canvas has absolutely 
+            // no baseline color tint, preventing any transparent ghost rectangles!
+            glm::vec4 transparentZero(0.0f);
 
-                    // Add the 3 inner core points using your Outline Color variable
-                    mesh.vertices.push_back({ m_P1, m_OutlineColor, {0,0} }); // index + 0
-                    mesh.vertices.push_back({ m_P2, m_OutlineColor, {0,0} }); // index + 1
-                    mesh.vertices.push_back({ m_P3, m_OutlineColor, {0,0} }); // index + 2
+            Vertex topLeft     = { { centerX - halfW, centerY - halfH }, transparentZero, { 0.0f, 0.0f } };
+            Vertex topRight    = { { centerX + halfW, centerY - halfH }, transparentZero, { 1.0f, 0.0f } };
+            Vertex bottomRight = { { centerX + halfW, centerY + halfH }, transparentZero, { 1.0f, 1.0f } };
+            Vertex bottomLeft  = { { centerX - halfW, centerY + halfH }, transparentZero, { 0.0f, 1.0f } };
 
-                    // Add the 3 matching extruded outer points
-                    mesh.vertices.push_back({ ext1, m_OutlineColor, {0,0} }); // index + 3
-                    mesh.vertices.push_back({ ext2, m_OutlineColor, {0,0} }); // index + 4
-                    mesh.vertices.push_back({ ext3, m_OutlineColor, {0,0} }); // index + 5
+            quadShellMesh.vertices = { topLeft, topRight, bottomRight, bottomLeft };
+            quadShellMesh.indices  = { 0, 1, 2, 2, 3, 0 }; 
 
-                    // Stitch the outer border rings together into 3 seamless rectangular quads
-                    uint32_t i0 = borderStartIdx;
-                    
-                    // Wall 1: P1 to P2
-                    mesh.indices.insert(mesh.indices.end(), { i0+0, i0+1, i0+4, i0+4, i0+3, i0+0 });
-                    // Wall 2: P2 to P3
-                    mesh.indices.insert(mesh.indices.end(), { i0+1, i0+2, i0+5, i0+5, i0+4, i0+1 });
-                    // Wall 3: P3 to P1
-                    mesh.indices.insert(mesh.indices.end(), { i0+2, i0+0, i0+3, i0+3, i0+5, i0+2 });
-                }
+            return quadShellMesh;
+        }
 
-                return mesh;
-            }
-
-            void BindUniforms(const Shader& shader) const override;
+        void BindUniforms(const Shader& shader) const override {
+            shader.SetUniformInt("u_PrimitiveType", 6); 
+            shader.SetUniformFloat("u_BorderThickness", m_BorderThickness);
+            shader.SetUniformInt("u_IsFilled", m_IsFilled ? 1 : 0);
             
-            // Prototype stays clean and empty now!
-            void DrawBorders(BatchRenderer&, const glm::mat4&) const {}
-        };
+            // --- FIXED: PASS EXTRACTED BODY COLOR VIA A DEDICATED REGISTRATION UNIFORM ---
+            // Since the vertices are zeroed out, we pass the hand's solid color down as a uniform!
+            shader.SetUniformVec4("u_OutlineColor", m_OutlineColor);
+            shader.SetUniformVec4("u_TriangleBodyColor", m_Color); // ◄── NEW UNIFORM FOR HAND FILL COLOR
+
+            shader.SetUniformVec2("u_TriangleP1", m_P1);
+            shader.SetUniformVec2("u_TriangleP2", m_P2);
+            shader.SetUniformVec2("u_TriangleP3", m_P3);
+        }
+        
+        void DrawBorders(BatchRenderer&, const glm::mat4&) const {}
+    };
 } // namespace Gui

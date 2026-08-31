@@ -94,5 +94,17 @@
   "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\ClipComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ClipComponent.cpp",
   "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ClipComponent.cpp",
   "output": "CMakeFiles\\rooster.dir\\src\\ClipComponent.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\DigitalTimer.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\DigitalTimer.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\DigitalTimer.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\DigitalTimer.cpp.obj"
+},
+{
+  "directory": "C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG",
+  "command": "C:\\mingw64\\bin\\g++.exe -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype/include -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/glad -IC:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/KHR -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/GLFW -isystem C:/Users/KVK/source/LearnOpenGL/Graphics_engine/VSDCODE_ALLCONFIG/include/freetype -g -o CMakeFiles\\rooster.dir\\src\\ButtonComponent.cpp.obj -c C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ButtonComponent.cpp",
+  "file": "C:\\Users\\KVK\\source\\LearnOpenGL\\Graphics_engine\\VSDCODE_ALLCONFIG\\src\\ButtonComponent.cpp",
+  "output": "CMakeFiles\\rooster.dir\\src\\ButtonComponent.cpp.obj"
 }
 ]

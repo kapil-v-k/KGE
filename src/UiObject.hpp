@@ -34,7 +34,7 @@ namespace Gui
         }
 
         void AddChild(std::shared_ptr<UiObject> child) { m_Children.push_back(child); }
-
+        void UpdateInput(float deltaTime, float mouseX, float mouseY, bool mousePressedNow, const glm::mat4& parentTransformMatrix);
         void Render(Gui::BatchRenderer& batcher, const glm::mat4& parentTransformMatrix, Gui::Viewport* activeViewport);
 
     private:

@@ -2,11 +2,16 @@
 #include "BatchRenderer.hpp"
 #include "Shader.hpp"
 #include "Viewport.hpp"
+#include <glad/glad.h>
 
 namespace Gui
 {
     void TextComponent::Render(class BatchRenderer& batcher, const glm::mat4& combinedTransform, Viewport* activeViewport) {
-        if (!m_FontAtlas || m_Text.empty()) return;
+        if (!m_FontAtlas || m_Text.empty() || !activeViewport) return;
+
+        // Grab your active viewport shader directly to manipulate states explicitly
+        auto* activeShader = activeViewport->GetActiveShader();
+        if (!activeShader) return;
 
         glm::mat4 componentMatrix = glm::mat4(1.0f);
         componentMatrix = glm::translate(componentMatrix, glm::vec3(m_LocalPosition, 0.0f));
@@ -20,24 +25,28 @@ namespace Gui
         float startAlignmentX = 0.0f; 
         float lineSpacingHeight = 28.0f; 
 
+        // Shared static primitive shell stays completely alive throughout the rendering loop pass
         struct TextGlyphPrimitive : public Primitive {
             PrimitiveMesh localMesh;
-            unsigned int textureID;
-            
-            TextGlyphPrimitive(const PrimitiveMesh& mesh, unsigned int texID) 
-                : Primitive(PrimitiveType::Rectangle), localMesh(mesh), textureID(texID) {}
+            TextGlyphPrimitive(const PrimitiveMesh& mesh) 
+                : Primitive(PrimitiveType::Rectangle), localMesh(mesh) {}
             
             [[nodiscard]] PrimitiveMesh GenerateGeometry() const override { return localMesh; }
-            
-            void BindUniforms(const Shader& shader) const override {
-                shader.SetUniformInt("u_PrimitiveType", 3);
-                shader.SetUniformFloat("u_BorderThickness", 0.0f);
-                shader.SetUniformInt("u_IsFilled", 1); 
-
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, textureID);
-            }
+            void BindUniforms(const Shader& shader) const override {} // Managed explicitly below
         };
+
+        // ====================================================================
+        // --- FIXED: FORCE PIPELINE FLUSH & ACTIVATE TEXT UNIFORMS NATIVELY --
+        // ====================================================================
+        // By flushing the old background rectangle primitives first and forcing the 
+        // shader registers to swap to Type 3 right here, we prevent stack-destruction drops!
+        batcher.Flush();
+        activeShader->SetUniformInt("u_PrimitiveType", 3);
+        activeShader->SetUniformFloat("u_BorderThickness", 0.0f);
+        activeShader->SetUniformInt("u_IsFilled", 1);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_FontAtlas->GetAtlasTextureID());
 
         for (char charCode : m_Text) {
             const Character& ch = m_FontAtlas->GetCharacter(charCode);
@@ -68,19 +77,16 @@ namespace Gui
                 letterMesh.vertices = { topLeft, topRight, bottomRight, bottomLeft };
                 letterMesh.indices = { 0, 1, 2, 2, 3, 0 };
 
-                // --- FIXED: FORCE A BATCH FLUSH BEFORE TEXT SUBMISSIONS ---
-                // Because glyphPrimitive is destroyed instantly, flushing here ensures
-                // your uniform state bindings are locked into the hardware pipeline!
-                batcher.Flush();
-
-                TextGlyphPrimitive glyphPrimitive(letterMesh, m_FontAtlas->GetAtlasTextureID());
+                TextGlyphPrimitive glyphPrimitive(letterMesh);
+                
+                // Submit geometry vertices cleanly into the active text buffer queue
                 batcher.Submit(glyphPrimitive, finalTextMatrix);
             }
 
             cursorX += static_cast<float>(ch.advance);
         }
         
-        // Finalize typography pass sub-buffers safely
+        // Force draw the accumulated text layout glyphs instantly before leaving the component pass
         batcher.Flush();
     }
 } // namespace Gui

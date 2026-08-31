@@ -26,7 +26,7 @@ namespace Gui {
 
         ~TextComponent() override = default;
 
-        [[nodiscard]] static std::unique_ptr<TextComponent> Create(const std::string& initialText = "", float initialScale = 1.0f) {
+        [[nodiscard]] static std::shared_ptr<TextComponent> Create(const std::string& initialText = "", float initialScale = 1.0f) {
             auto comp = std::make_unique<TextComponent>(nullptr);
             comp->SetText(initialText);
             comp->SetLocalScale(initialScale);
