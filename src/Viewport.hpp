@@ -21,7 +21,8 @@ namespace Gui
         int GetY() const { return m_y; }
         int GetWidth() const { return m_width; }
         int GetHeight() const { return m_height; }
-        
+        [[nodiscard]] glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; }
+
         void AddObject(std::shared_ptr<Gui::UiObject> obj);
         const std::vector<std::shared_ptr<Gui::UiObject>>& GetObjects() const { return m_Objects; }
 

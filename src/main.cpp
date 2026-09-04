@@ -326,6 +326,9 @@ void two_viewport_display()
         clock2->SetTimezoneOffset(5.5f);
         viewport2->AddObject(clock2->GetWidget());
 
+        // ====================================================================
+        // --- MASTER APPLICATION UPDATING CONTROLLER LOOP INTERFACE ---------
+        // ====================================================================
         app->OnUpdate([&](float deltaTime) {
             glDisable(GL_STENCIL_TEST);
             glDisable(GL_SCISSOR_TEST);
@@ -336,28 +339,19 @@ void two_viewport_display()
             app->GetMouseCursorPos(rawCursorX, rawCursorY);
             bool isClickingNow = app->IsMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT);
 
-            int currentWinW = 1920, currentWinH = 1080;
-            if (app->GetNativeWindow()) {
-                glfwGetWindowSize(app->GetNativeWindow(), &currentWinW, &currentWinH);
-            }
-
             // ====================================================================
-            // --- FIXED: LEFT CELL VIEWPORT-SPACE MOUSE TRANSLATION FORMULA -----
+            // --- FIXED: INJECT THE 5TH PROJECTION MATRIX ARGUMENT INTO THE CALL --
             // ====================================================================
-            // Step A: Find the local midpoint centers of the left half-screen quadrant window
-            float leftViewportWidth  = static_cast<float>(currentWinW) * 0.5f;
-            float leftViewportHeight = static_cast<float>(currentWinH);
-            
-            float leftCellCenterX = leftViewportWidth * 0.5f;
-            float leftCellCenterY = leftViewportHeight * 0.5f;
-
-            // Step B: Normalize the raw top-left GLFW pixel directly onto the left center-origin grid!
-            float normalizedMouseX = static_cast<float>(rawCursorX) - leftCellCenterX;
-            float normalizedMouseY = static_cast<float>(rawCursorY) - leftCellCenterY;
-
-            // 3. Cascade mouse update states right down into your layout tree components
-            if (clock1) {
-                clock1->Update(deltaTime, normalizedMouseX, normalizedMouseY, isClickingNow);
+            // Passing viewport1->m_ProjectionMatrix completes the argument list required 
+            // by DigitalTimer::Update, resolving the compilation error instantly!
+            if (clock1 && viewport1) {
+                clock1->Update(
+                    deltaTime, 
+                    static_cast<float>(rawCursorX), 
+                    static_cast<float>(rawCursorY),
+                    isClickingNow,
+                    viewport1->m_ProjectionMatrix // ◄── FIXED: PASSES UN-WARPED VIEWPORT MATRIX
+                );
             }
 
             if (clock2) {

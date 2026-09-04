@@ -182,7 +182,7 @@ namespace Gui {
         [[nodiscard]] static std::shared_ptr<RectanglePrimitive> Create(const glm::vec2& size, float radius) {
             return std::make_shared<RectanglePrimitive>(size, radius);
         }
-
+        [[nodiscard]] const glm::vec2& GetSize() const { return m_Size; }
         void SetSize(const glm::vec2& size) { m_Size = size; }
         void SetCornerRadius(float radius) { m_CornerRadius = radius; }
 
@@ -212,7 +212,7 @@ namespace Gui {
 
         // Getter for the specialized shader logic to extract corner properties
         [[nodiscard]] float GetCornerRadius() const { return m_CornerRadius; }
-        [[nodiscard]] glm::vec2 GetSize() const { return m_Size; }
+        //[[nodiscard]] glm::vec2 GetSize() const { return m_Size; }
     };
 
     class ThickLinePrimitive : public Primitive {

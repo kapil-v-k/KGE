@@ -1,29 +1,33 @@
 #pragma once
 #include <memory>
-#include "UiObject.hpp"
-#include "Font.h"
-#include "RenderComponent.hpp"
-#include "Color.h"
-#include "ButtonComponent.h"
-#include "TextComponent.h"
-#include "Primitive.h"
+#include <glm/glm.hpp>
+
+namespace Gui {
+    class UiObject;
+    class ButtonComponent;
+    class RectanglePrimitive;
+    class TextComponent;
+    class Font;
+}
 
 namespace Gui
 {
     class DigitalTimer
     {
     private:
-        std::shared_ptr<UiObject> m_digitalTimer_widget;
-        std::shared_ptr<UiObject> m_start_button_widget;
-        std::shared_ptr<RectanglePrimitive> m_startButtonBodyMesh;
-        std::shared_ptr<ButtonComponent> m_startbuttonActionScript;
-        std::shared_ptr<TextComponent> m_startbtnLabelText;
+        std::shared_ptr<Gui::UiObject> m_digitalTimer_widget;
+        std::shared_ptr<Gui::UiObject> m_start_button_widget;
+        std::shared_ptr<Gui::ButtonComponent> m_startbuttonActionScript;
+        std::shared_ptr<Gui::RectanglePrimitive> m_startButtonBodyMesh;
+        std::shared_ptr<Gui::TextComponent> m_startbtnLabelText;
 
     public:
-        explicit DigitalTimer(Font* mainFont);
+        DigitalTimer(Gui::Font* mainFont);
         ~DigitalTimer();
-        
-        [[nodiscard]] std::shared_ptr<UiObject> GetWidget() const;
-        void Update(float deltaTime, float normalizedMouseX, float normalizedMouseY, bool isClickingNow);
+
+        [[nodiscard]] std::shared_ptr<Gui::UiObject> GetWidget() const;
+
+        // --- FIXED SYNCHRONIZED UPDATE DECLARATION ---
+        void Update(float deltaTime, float normalizedMouseX, float normalizedMouseY, bool isClickingNow, const glm::mat4& projectionMatrix);
     };
 } // namespace Gui

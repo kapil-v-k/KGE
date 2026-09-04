@@ -1,11 +1,11 @@
 #include "UiObject.hpp"
-#include <glad/glad.h>
+#include "Component.h"
+#include "ButtonComponent.h"
 #include "BatchRenderer.hpp"
+#include "Viewport.hpp"
 #include "ClipContainerComponent.h"
 #include "ClipComponent.h" 
 #include "Shader.hpp"
-#include "Viewport.hpp"
-#include "ButtonComponent.h"
 
 namespace Gui
 {
@@ -21,8 +21,6 @@ namespace Gui
         // ====================================================================
         // --- PASS 1: DRAW BACKGROUND PANELS AND TELEMETRY SHAPES FIRST ------
         // ====================================================================
-        // Background components (like your magenta frame or clock chassis plates) 
-        // draw in unmasked space, guaranteeing they never clip themselves!
         for (auto& component : m_Components) {
             if (component && component->GetRenderLayer() == RenderLayer::Background) {
                 component->Render(batcher, combinedTransform, activeViewport);
@@ -32,7 +30,6 @@ namespace Gui
         // ====================================================================
         // --- STEP 2: ACTIVATE YOUR CLIPPING COMPONENT STRATEGY --------------
         // ====================================================================
-        // We find if a clip component is registered and trigger it exactly here!
         Gui::ClipComponent* clipCheck = nullptr;
         for (auto& component : m_Components) {
             if (component) {
@@ -44,16 +41,15 @@ namespace Gui
             }
         }
         
-        // This turns on glScissor, Stencil writing, or SDF uniforms right before foreground tasks!
         if (clipCheck != nullptr) {
             clipCheck->BeginClip(batcher, combinedTransform, activeViewport, this);
         }
 
         batcher.Flush();
+
         // ====================================================================
         // --- PASS 3: DRAW TYPOGRAPHY TEXT AND NUMBERS SECOND ----------------
         // ====================================================================
-        // Foreground elements now execute securely under the active mask rules!
         for (auto& component : m_Components) {
             if (component && component->GetRenderLayer() == RenderLayer::Foreground) {
                 component->Render(batcher, combinedTransform, activeViewport);
@@ -81,34 +77,40 @@ namespace Gui
         }
     }
 
-    void UiObject::UpdateInput(float deltaTime,float mouseX, float mouseY, bool mousePressedNow, const glm::mat4& parentTransformMatrix)
+    void UiObject::UpdateInput(float deltaTime, float mouseX, float mouseY, bool mousePressedNow, const glm::mat4& parentTransformMatrix, const glm::mat4& projectionMatrix)
     {
-        // Re-calculate the exact matrix mapping matching your standard rendering pass
         glm::mat4 localTransform = glm::mat4(1.0f);
         localTransform = glm::translate(localTransform, glm::vec3(m_Position, 0.0f));
-        localTransform = glm::rotate(localTransform, m_RotationRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+        
+        if (m_RotationRadians != 0.0f) {
+            localTransform = glm::rotate(localTransform, m_RotationRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+        }
+        
         localTransform = glm::scale(localTransform, glm::vec3(m_Scale.x, m_Scale.y, 1.0f));
 
+        // Column-major scene graph multiplication ensures parents affect children correctly
         glm::mat4 combinedTransform = parentTransformMatrix * localTransform;
 
-        // Check if this object contains our interactive button script component
-        // (Bypasses keyword errors by manually reading your component list array)
+        // Cascade input events cleanly to all attached components
         for (auto& component : m_Components) {
             if (component) {
-                #include "ButtonComponent.h" // Ensures type visibility
                 auto* button = dynamic_cast<Gui::ButtonComponent*>(component.get());
                 if (button != nullptr) {
-                    // Pass mouse states and combined matrix rules directly to the button handler!
-                    button->Update(deltaTime);
-                    button->HandleInput(mouseX, mouseY, mousePressedNow, combinedTransform);
+                    // ====================================================================
+                    // --- CLEAN RECURSION: EVALUATE ONLY LOCAL ATTACHED COMPONENTS -------
+                    // ====================================================================
+                    // Because button components are processed cleanly within their own local node's
+                    // m_Components array vector, we run updates directly without needing protected getters!
+                    button->Update(deltaTime); 
+                    button->HandleInput(mouseX, mouseY, mousePressedNow, combinedTransform, projectionMatrix);
                 }
             }
         }
 
-        // Recursively cascade input evaluation passes straight down to all child nodes
+        // Recursively walk down through your child node branches
         for (auto& child : m_Children) {
             if (child) {
-                child->UpdateInput(deltaTime, mouseX, mouseY, mousePressedNow, combinedTransform);
+                child->UpdateInput(deltaTime, mouseX, mouseY, mousePressedNow, combinedTransform, projectionMatrix);
             }
         }
     }

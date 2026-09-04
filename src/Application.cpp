@@ -41,6 +41,14 @@ namespace Gui {
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required for macOS portability
         #endif
 
+        // ====================================================================
+        // --- FIXED: BORDERLESS WINDOW HINTS PREVENT VIEWPORT SQUISHING -----
+        // ====================================================================
+        // Disabling decoration strips the OS title bar, caption height, and native 
+        // side frames. This lets 1920x1080 sit at a native, pixel-perfect 1:1 scale!
+        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); 
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
         // Create the physical window framework handle
         m_WindowHandle = glfwCreateWindow(
             m_Config.width, 
@@ -55,6 +63,9 @@ namespace Gui {
             glfwTerminate();
             return false;
         }
+
+        // Lock the window position flush to (0,0) to sit perfectly clean inside the bezel
+        glfwSetWindowPos(m_WindowHandle, 0, 0);
 
         glfwMakeContextCurrent(m_WindowHandle);
 
@@ -87,9 +98,6 @@ namespace Gui {
     {
         float lastFrame = 0.0f;
 
-        // ====================================================================
-        // --- THE CRITICAL OpenGL CORE PROFILE FIX: BIND THE RUNTIME VAO ---
-        // ====================================================================
         // Modern Core Profiles discard vertices unless a global VAO is bound!
         // This ensures the hardware accepts your batcher attributes natively.
         GLuint globalVAO;
@@ -98,6 +106,15 @@ namespace Gui {
 
         while (!glfwWindowShouldClose(m_WindowHandle)) 
         {
+            // ====================================================================
+            // --- FIXED: EMERGENCY KEY EXIT CLOSES BORDERLESS WINDOW -----------
+            // ====================================================================
+            // Since title bars are removed, pressing the ESCAPE key safely intercepts 
+            // the runtime state loop to terminate your engine session cleanly!
+            if (glfwGetKey(m_WindowHandle, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+                glfwSetWindowShouldClose(m_WindowHandle, GLFW_TRUE);
+            }
+
             float currentFrame = static_cast<float>(glfwGetTime());
             float deltaTime = currentFrame - lastFrame;
             lastFrame = currentFrame;

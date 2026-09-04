@@ -25,6 +25,7 @@ namespace Gui
         void Move(float x, float y) { m_Position = glm::vec2(x, y); }
         void Scale(float s) { m_Scale = glm::vec2(s, s); }
         void SetRotation(float deg) { m_RotationRadians = deg * (3.14159265f / 180.0f); }
+        [[nodiscard]] glm::vec2 GetLocalPosition() const { return m_Position; }
 
         void AddComponents(std::shared_ptr<Component> comp) { m_Components.push_back(comp); }
         template<typename... Args>
@@ -34,7 +35,8 @@ namespace Gui
         }
 
         void AddChild(std::shared_ptr<UiObject> child) { m_Children.push_back(child); }
-        void UpdateInput(float deltaTime, float mouseX, float mouseY, bool mousePressedNow, const glm::mat4& parentTransformMatrix);
+        void UpdateInput(float deltaTime, float mouseX, float mouseY, bool mousePressedNow, const glm::mat4& parentTransformMatrix, const glm::mat4& projectionMatrix);
+
         void Render(Gui::BatchRenderer& batcher, const glm::mat4& parentTransformMatrix, Gui::Viewport* activeViewport);
 
     private:
